@@ -20,5 +20,5 @@ flowcharts/
 # Tgnore logs Folder 
 logs/
 
-turbo.json
+# Ignore turbo files
 .turbo
