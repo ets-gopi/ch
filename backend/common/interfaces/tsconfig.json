@@ -4,6 +4,5 @@
     "outDir": "dist",
     "composite": true
   },
-  "include": ["src/**/*.ts"],
-  "references": [{ "path": "../../common/config" }]
+  "include": ["src/**/*.ts"]
 }

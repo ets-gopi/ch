@@ -2,31 +2,19 @@
   "name": "chat-app-backend",
   "private": true,
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "packageManager": "npm@10.8.2",
   "workspaces": [
-    "services/*",
-    "shared/*"
+    "services/**",
+    "libs/**",
+    "common/**"
   ],
   "scripts": {
-    "dev": "concurrently \"npm:dev:*\"",
-    "dev:root": "ts-node-dev --respawn src/index.ts",
-    "dev:user": "npm --workspace services/users run dev",
-    "build": "npm run build:root && npm run build:services",
-    "build:root": "tsc",
-    "build:services": "npm run build:user",
-    "build:user": "npm --workspace services/users run build",
-    "start": "npm run start:root && npm run start:services",
-    "start:root": "node dist/index.js",
-    "start:services": "npm run start:user",
-    "start:user": "npm --workspace services/users run start",
-    "clean": "rm -rf dist services/*/dist"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
   },
   "devDependencies": {
-    "@types/express": "^5.0.1",
-    "@types/node": "^22.14.1",
-    "concurrently": "^9.1.2",
-    "cross-env": "^7.0.3",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.8.3"
+    "turbo": "^2.5.0"
   }
 }

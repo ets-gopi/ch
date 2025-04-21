@@ -1,19 +1,18 @@
 {
-    "compilerOptions": {
-      "target": "ES6",
-      "module": "CommonJS",
-      "strict": true,
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "baseUrl": ".",
-      "paths": {
-        "@shared/*": ["shared/*"]
-      }
-    },
-    "exclude": [
-      "node_modules",
-      "dist"
-    ]
-  }
-  
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@libs/*": ["libs/*"],
+      "@common/*": ["common/*"],
+      "@services/*": ["services/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

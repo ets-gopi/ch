@@ -2,8 +2,8 @@
 node_modules/
 
 # Ignore environment variables files (contains sensitive data)
-.env
-.env.production
+.env.dev
+.env.prod
 
 # Ignore compiled TypeScript files
 dist/
@@ -19,3 +19,6 @@ flowcharts/
 
 # Tgnore logs Folder 
 logs/
+
+turbo.json
+.turbo
