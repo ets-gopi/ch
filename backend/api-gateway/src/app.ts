@@ -1,5 +1,5 @@
 import express from "express";
-const v1UserRoutes = require("./routes");
+const v1Routes = require("./routes");
 
 const app = express();
 const cors = require("cors");
@@ -12,6 +12,6 @@ app.use(express.json());
 // Middleware to parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", v1UserRoutes);
+app.use("/api/v1", v1Routes);
 
 export default app;

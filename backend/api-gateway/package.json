@@ -1,21 +1,14 @@
 {
-  "name": "@services/users",
+  "name": "api-gateway",
   "version": "1.0.0",
+  "description": "Gateway to route requests to microservices",
   "main": "dist/index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node-dev --respawn src/index.ts",
     "build": "tsup",
     "start": "cross-env NODE_ENV=production node dist/index.js"
   },
-  "devDependencies": {
-    "@types/express": "^5.0.1",
-    "@types/node": "^22.14.1",
-    "cross-env": "^7.0.3",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.8.3"
-  },
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "axios": "^1.6.0"
   }
 }

@@ -2,14 +2,14 @@ import "@common/types/src";
 import { NextFunction, Request, Response } from "express";
 import jwt, { Secret, SignOptions, VerifyErrors } from "jsonwebtoken";
 import createError from "http-errors";
-import { EnvVars } from "@common/config/src";
+import AuthEnvVars from "../../../config/envConfig";
 import { ErrorConstants } from "../constants";
 
 export class JwtService {
   private secretKey: Secret;
-  private envVars: EnvVars;
+  private envVars: AuthEnvVars;
   constructor() {
-    this.envVars = new EnvVars();
+    this.envVars = new AuthEnvVars();
     this.secretKey = this.envVars.get("JWT_SECRET");
   }
 

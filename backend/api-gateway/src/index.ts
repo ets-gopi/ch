@@ -3,5 +3,5 @@ import EnvVars from "../config/envConfig";
 const PORT = new EnvVars().get("PORT");
 
 app.listen(PORT, () => {
-  console.log(`User service running on port ${PORT}`);
+  console.log(`api gateway service running on port ${PORT}`);
 });

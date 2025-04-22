@@ -6,15 +6,18 @@
   "workspaces": [
     "services/**",
     "libs/**",
-    "common/**"
+    "common/**",
+    "api-gateway/**"
   ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "start": "concurrently \"npm run start --workspace services/auth\" \"npm run start --workspace services/users\" \"npm run start --workspace api-gateway\""
   },
   "devDependencies": {
+    "concurrently": "^9.1.2",
     "turbo": "^2.5.0"
   }
 }

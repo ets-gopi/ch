@@ -7,11 +7,14 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "composite": true,
+    "declaration": true,
+    "declarationMap": true,
     "baseUrl": ".",
     "paths": {
       "@libs/*": ["libs/*"],
       "@common/*": ["common/*"],
-      "@services/*": ["services/*"]
+      "@services/*": ["services/*"],
+      "@api-gateway/*": ["api-gateway/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

@@ -1,8 +1,8 @@
 {
   "name": "@common/types",
   "version": "1.0.0",
-  "main": "dist/src/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "tsc --build"
+    "build": "tsup"
   }
 }

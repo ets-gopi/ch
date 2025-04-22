@@ -2,10 +2,10 @@ import dotenv from "dotenv";
 import path from "path";
 import Joi from "joi";
 import createError from "http-errors";
-import { EnvVarsType } from "@common/interfaces/src";
-class EnvVars {
+import { AuthEnvVarsType } from "@common/interfaces/src";
+class AuthEnvVars {
   private envFile: string;
-  private envVarsObj: EnvVarsType;
+  private envVarsObj: AuthEnvVarsType;
   constructor() {
     this.envFile =
       process.env.NODE_ENV === "development" ? ".env.dev" : ".env.prod";
@@ -14,10 +14,10 @@ class EnvVars {
   }
   private loadEnvFile(): void {
     dotenv.config({
-      path: path.resolve(__dirname, `../../../${this.envFile}`),
+      path: path.resolve(__dirname, `../${this.envFile}`),
     });
   }
-  private validateEnvFile(): EnvVarsType {
+  private validateEnvFile(): AuthEnvVarsType {
     const envVarsSchema = Joi.object()
       .keys({
         PORT: Joi.number().required(),
@@ -37,11 +37,11 @@ class EnvVars {
 
     return {
       ...validateObj.value,
-    } as EnvVarsType;
+    } as AuthEnvVarsType;
   }
-  public get<T extends keyof EnvVarsType>(key: T): EnvVarsType[T] {
+  public get<T extends keyof AuthEnvVarsType>(key: T): AuthEnvVarsType[T] {
     return this.envVarsObj[key];
   }
 }
 
-export default EnvVars;
+export default AuthEnvVars;

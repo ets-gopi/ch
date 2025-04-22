@@ -4,9 +4,9 @@
     "outDir": "dist",
     "composite": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*", "config/**/*"],
   "references": [
-    { "path": "../../common/config" },
-    { "path": "../../common/types" }
+    { "path": "../../common/types" },
+    { "path": "../../common/interfaces" }
   ]
 }
