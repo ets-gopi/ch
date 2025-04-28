@@ -37,7 +37,7 @@ export default function ProfileForm() {
     //   fileInputRef.current.value = "";
     // }
 
-    // router.push("/chat-room");
+    router.push("/chat-room");
   }
 
   return (

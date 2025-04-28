@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import RegisterForm from "@/components/forms/registerForm";
+import Link from "next/link";
 export default function Register() {
   return (
     <React.Fragment>
@@ -19,6 +20,17 @@ export default function Register() {
           <CardContent>
             <RegisterForm />
           </CardContent>
+          <CardFooter>
+            <p className="text-sm text-muted-foreground mr-2">
+              Already have an account?
+            </p>
+            <Link
+              href="/login"
+              className="text-sm font-medium text-primary hover:underline"
+            >
+              Login
+            </Link>
+          </CardFooter>
         </Card>
       </div>
     </React.Fragment>
