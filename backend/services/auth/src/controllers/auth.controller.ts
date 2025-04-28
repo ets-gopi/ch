@@ -8,9 +8,7 @@ import { ErrorConstants } from '../common/constants';
 import { HydratedDocument } from 'mongoose';
 import PublisherChannel from '../common/rabbitMq/channels/publishers/auth.publisher';
 
-export const signup = (req: Request, res: Response) => {
-  res.json({ message: 'User signed up' });
-};
+
 
 export const login = (req: Request, res: Response) => {
   // Login logic here (check password, return JWT)
@@ -41,6 +39,7 @@ class UserAuthAccountController {
         throw createError(409, { message: 'Email Is Already Exists.', errorCode: ErrorConstants.ERROR_DUPLICATE_ENTRY });
       } else {
         const newUser: HydratedDocument<IUser> = await this.authModel.create({ email: email, password: password });
+        
         await newUser.save();
 
         await this.publisherChannel.publish('AUTH_SIGNUP', { data: { email: newUser.email } });
@@ -49,7 +48,7 @@ class UserAuthAccountController {
           req,
           res,
           201,
-          'User has been successfully registered, and an OTP has been sent.',
+          'User has been successfully registered.',
           {
             email: newUser.email,
             token: token
@@ -66,6 +65,8 @@ class UserAuthAccountController {
       }
     }
   };
+
+
 }
 
 export default UserAuthAccountController;

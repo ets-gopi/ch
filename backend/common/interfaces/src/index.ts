@@ -2,6 +2,7 @@
 export interface EnvVarsType {
   PORT: number;
   NODE_ENV: string;
+  AUTH_SERVICE_BASE_URL: string;
 }
 
 export interface AuthEnvVarsType {

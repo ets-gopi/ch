@@ -1,3 +1,3 @@
-import RabbitMqClient from "./connection";
+import RabbitMqClient from './connection';
 
 export { RabbitMqClient };

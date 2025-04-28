@@ -24,6 +24,7 @@ app.use(requestIdMiddleware);
 app.use(requestMessageMiddleware);
 
 app.use('/', v1Routes);
+
 // Handle 404 errors (Unknown Routes)
 app.use((req: Request, res: Response, next: NextFunction) => {
   next(createError(404, { message: `Route ${req.method} ${req.url} not found`, errorCode: ErrorConstants.ERROR_ROUTE_NOT_FOUND }));
