@@ -1,1 +1,3 @@
-import "./express.d.ts";
+import { ResponseMessage } from './responseMessage';
+
+export { ResponseMessage };

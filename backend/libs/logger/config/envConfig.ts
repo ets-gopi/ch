@@ -2,10 +2,10 @@ import dotenv from 'dotenv';
 import path from 'path';
 import Joi from 'joi';
 import createError from 'http-errors';
-import { AuthEnvVarsType } from '@common/interfaces/src';
-class AuthEnvVars {
+import { LoggerEnvVarsType } from '@common/interfaces/src';
+class LoggerEnvVars {
   private envFile: string;
-  private envVarsObj: AuthEnvVarsType;
+  private envVarsObj: LoggerEnvVarsType;
   constructor() {
     this.envFile = process.env.NODE_ENV === 'development' ? '.env.dev' : '.env.prod';
     this.loadEnvFile();
@@ -16,14 +16,12 @@ class AuthEnvVars {
       path: path.resolve(__dirname, `../${this.envFile}`)
     });
   }
-  private validateEnvFile(): AuthEnvVarsType {
+  private validateEnvFile(): LoggerEnvVarsType {
     const envVarsSchema = Joi.object()
       .keys({
-        PORT: Joi.number().required(),
-        NODE_ENV: Joi.string().required(),
-        JWT_SECRET: Joi.string().required(),
-        MONGO_URI: Joi.string().required(),
-        DB_NAME: Joi.string().required()
+        MAX_FILE_SIZE: Joi.string().required().description('MAX FILE SIZE'),
+        MAX_FILES_ROTATION: Joi.string().required().description('Max Age for Log Files'),
+        LOG_LEVEL: Joi.string().required().description('add the log level')
       })
       .unknown();
     const validateObj = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(process.env);
@@ -33,11 +31,11 @@ class AuthEnvVars {
 
     return {
       ...validateObj.value
-    } as AuthEnvVarsType;
+    } as LoggerEnvVarsType;
   }
-  public get<T extends keyof AuthEnvVarsType>(key: T): AuthEnvVarsType[T] {
+  public get<T extends keyof LoggerEnvVarsType>(key: T): LoggerEnvVarsType[T] {
     return this.envVarsObj[key];
   }
 }
 
-export default AuthEnvVars;
+export default LoggerEnvVars;

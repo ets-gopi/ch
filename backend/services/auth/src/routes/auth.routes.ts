@@ -1,9 +1,10 @@
-import express from "express";
-import { signup, login } from "../controllers/auth.controller";
-
+import express from 'express';
+import UserAuthAccountController from '../controllers/auth.controller';
 const router = express.Router();
+// create an new instance on usercontroller.
+const userAuthAccountControllerInstance = new UserAuthAccountController();
 
-router.post("/signup", signup);
-router.post("/login", login);
+// create a new user if not exists.
+router.post('/register', userAuthAccountControllerInstance.register);
 
 export default router;
