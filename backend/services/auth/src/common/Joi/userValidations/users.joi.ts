@@ -1,8 +1,8 @@
 import Joi, { ObjectSchema, ValidationErrorItem } from 'joi';
 import createError from 'http-errors';
-import { ErrorConstants } from '../../constants';
+import { ErrorConstants } from '@common/constants/src';
 import { joiErrorMap } from '../joiErrorMap';
-export class UserAuthAccountValidation {
+export class UserAccountValidation {
   public static schemas: Record<string, ObjectSchema> = {
     registerSchema: Joi.object({
       email: Joi.string().email().required(),

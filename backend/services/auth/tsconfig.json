@@ -10,6 +10,8 @@
     { "path": "../../common/interfaces" },
     { "path": "../../common/rabbitmq" },
     { "path": "../../common/dbconfig" },
-    { "path": "../../libs/logger" }
+    { "path": "../../libs/logger" },
+    { "path": "../../libs/jwt" },
+    { "path": "../../common/constants" }
   ]
 }

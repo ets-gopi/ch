@@ -17,6 +17,7 @@
     "start": "concurrently \"npm run start --workspace services/auth\" \"npm run start --workspace services/users\" \"npm run start --workspace api-gateway\""
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "concurrently": "^9.1.2",
     "turbo": "^2.5.0"
   }

@@ -1,17 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { Secret, SignOptions, VerifyErrors } from 'jsonwebtoken';
 import createError from 'http-errors';
-import AuthEnvVars from '../../../config/envConfig';
-import { ErrorConstants } from '../constants';
+import JwtEnvVars from '../config/envConfig';
+import { ErrorConstants } from '@common/constants/src';
 
 export class JwtService {
   private secretKey: Secret;
-  private envVars: AuthEnvVars;
+  private envVars: JwtEnvVars;
   constructor() {
-    this.envVars = new AuthEnvVars();
+    this.envVars = new JwtEnvVars();
     this.secretKey = this.envVars.get('JWT_SECRET');
   }
-
   // Assign the token to the logging user.
   public signAccessToken = (userId: string): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -38,23 +37,13 @@ export class JwtService {
 
   public verifyAccessToken = (req: Request, res: Response, next: NextFunction): void => {
     try {
-      const authHeader = req.headers['authorization'];
-      if (!authHeader) {
+      const token = req.cookies['accesstoken'];
+      if (!token) {
         throw createError(401, {
-          message: 'Authorization header is missing.',
+          message: 'Access token is missing.',
           errorCode: ErrorConstants.ERROR_UNAUTHORIZED_ACCESS
         });
       }
-
-      const bearerToken = authHeader.split(' ');
-      if (bearerToken.length !== 2) {
-        throw createError(401, {
-          message: 'Invalid Authorization Format.',
-          errorCode: ErrorConstants.ERROR_UNAUTHORIZED_ACCESS
-        });
-      }
-
-      const token = bearerToken[1];
       jwt.verify(token, this.secretKey, (err: VerifyErrors | null, payload?: string | jwt.JwtPayload) => {
         if (err || !payload) {
           return next(

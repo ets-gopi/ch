@@ -23,3 +23,7 @@ export interface LoggerEnvVarsType {
   MAX_FILE_SIZE: string;
   MAX_FILES_ROTATION: string;
 }
+
+export interface JwtEnvVarsType {
+  JWT_SECRET: string;
+}

@@ -1,4 +1,4 @@
-import { ErrorConstants } from '../constants';
+import { ErrorConstants } from '@common/constants/src';
 
 export const joiErrorMap: Record<string, { errorCode: number; message: string }> = {
   'any.required': {

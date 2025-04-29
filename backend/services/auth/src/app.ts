@@ -2,15 +2,23 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 import { requestIdMiddleware } from './middlewares/requestId';
 import { requestMessageMiddleware } from './middlewares/responseMessage';
 import createError from 'http-errors';
-import { ErrorConstants } from './common/constants';
-
+import { ErrorConstants } from '@common/constants/src';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 const v1Routes = require('./routes');
 
 const app = express();
-const cors = require('cors');
 
 // CORS enables secure cross-origin requests between web applications
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+
+app.use(cookieParser());
+
+// Logging middleware to check cookie data
+app.use((req, res, next) => {
+  console.log('Cookies:', req.cookies);
+  next();
+});
 
 app.use(express.json());
 

@@ -1,9 +1,9 @@
 import { CallbackError, model, Schema } from 'mongoose';
-import { IUser } from '../interfaces/user.interface';
+import { IUserAccount } from '../interfaces/user.account.interface';
 import { UserRole } from '../enums/user.enums';
 import bcrypt from 'bcrypt';
 
-const userAccountSchema = new Schema<IUser>(
+const userAccountSchema = new Schema<IUserAccount>(
   {
     email: {
       type: String,
@@ -11,6 +11,10 @@ const userAccountSchema = new Schema<IUser>(
       required: true
     },
     password: {
+      type: String,
+      required: true
+    },
+    userId: {
       type: String,
       required: true
     },
@@ -75,4 +79,4 @@ userAccountSchema.pre('save', async function (next) {
   }
 });
 
-export const userAccountModel = model<IUser>('users', userAccountSchema);
+export const userAccountModel = model<IUserAccount>('userAccounts', userAccountSchema);

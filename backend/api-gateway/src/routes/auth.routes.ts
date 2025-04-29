@@ -1,9 +1,12 @@
 import express from 'express';
-import { proxyLogin, proxySignup } from '../services/auth.services';
+import { AuthServices } from '../services/auth.services';
 
 const router = express.Router();
 
-router.post('/register', proxySignup);
-router.post('/login', proxyLogin);
+// create a instance for auth services
+const authServicesInstance = new AuthServices();
+
+router.post('/register', authServicesInstance.proxyRegister);
+router.post('/login', authServicesInstance.proxyLogin);
 
 export default router;

@@ -1,28 +1,27 @@
 import { NextFunction, Request, Response } from 'express';
 import { userAccountModel } from '../common/models/user.model';
-import { UserAuthAccountValidation } from '../common/Joi/userValidations/users.joi';
-import { JwtService } from '../common/jwt/jwtHelper';
+import { UserAccountValidation } from '../common/Joi/userValidations/users.joi';
+import { JwtService } from '@libs/jwt/src';
 import createError from 'http-errors';
-import { IUser } from '../common/interfaces/user.interface';
-import { ErrorConstants } from '../common/constants';
+import { IUserAccount } from '../common/interfaces/user.account.interface';
+import { ErrorConstants } from '@common/constants/src';
 import { HydratedDocument } from 'mongoose';
 import PublisherChannel from '../common/rabbitMq/channels/publishers/auth.publisher';
-
-
+import { v4 as uuidv4 } from 'uuid';
 
 export const login = (req: Request, res: Response) => {
   // Login logic here (check password, return JWT)
   res.json({ token: 'jwt-token-example' });
 };
 
-class UserAuthAccountController {
+class UserAccountController {
   private authModel = userAccountModel;
-  private userAuthAccountValidator: UserAuthAccountValidation;
+  private userAuthAccountValidator: UserAccountValidation;
   private jwtService: JwtService;
   private publisherChannel: PublisherChannel;
 
   constructor() {
-    this.userAuthAccountValidator = new UserAuthAccountValidation();
+    this.userAuthAccountValidator = new UserAccountValidation();
     this.jwtService = new JwtService();
     this.publisherChannel = new PublisherChannel();
   }
@@ -33,28 +32,28 @@ class UserAuthAccountController {
     let token: string | null = null;
     try {
       // validate the request body.
-      await this.userAuthAccountValidator.validate({ email, password }, UserAuthAccountValidation.schemas.registerSchema);
-      const isUserExist: HydratedDocument<IUser> | null = await this.authModel.findOne({ email: email });
+      await this.userAuthAccountValidator.validate({ email, password }, UserAccountValidation.schemas.registerSchema);
+      const isUserExist: HydratedDocument<IUserAccount> | null = await this.authModel.findOne({ email: email });
       if (isUserExist) {
         throw createError(409, { message: 'Email Is Already Exists.', errorCode: ErrorConstants.ERROR_DUPLICATE_ENTRY });
       } else {
-        const newUser: HydratedDocument<IUser> = await this.authModel.create({ email: email, password: password });
-        
+        const id = uuidv4();
+        const newUser: HydratedDocument<IUserAccount> = await this.authModel.create({ email: email, password: password, userId: id });
         await newUser.save();
+        // generate a access token.
+        token = await this.jwtService.signAccessToken(id);
 
-        await this.publisherChannel.publish('AUTH_SIGNUP', { data: { email: newUser.email } });
+        // send the token as http-only cookie.
+        res.cookie('accesstoken', token, {
+          path: '/',
+          secure: false,
+          httpOnly: true,
+          maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        });
 
-        res.locals.responseMessage.responseSuccess(
-          req,
-          res,
-          201,
-          'User has been successfully registered.',
-          {
-            email: newUser.email,
-            token: token
-          },
-          res.locals.requestId
-        );
+        //await this.publisherChannel.publish('AUTH_SIGNUP', { data: { email: newUser.email } });
+
+        res.locals.responseMessage.responseSuccess(req, res, 201, 'User has been successfully registered.', null, res.locals.requestId);
       }
     } catch (error: any) {
       if (error.code === 11000) {
@@ -65,8 +64,6 @@ class UserAuthAccountController {
       }
     }
   };
-
-
 }
 
-export default UserAuthAccountController;
+export default UserAccountController;
