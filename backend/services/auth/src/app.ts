@@ -1,13 +1,12 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
-import { requestIdMiddleware } from './middlewares/requestId';
-import { requestMessageMiddleware } from './middlewares/responseMessage';
 import createError from 'http-errors';
-import { ErrorConstants } from '@common/constants/src';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import { requestIdMiddleware, requestMessageMiddleware } from './middlewares';
+import { ErrorConstants } from '@common/constants/src';
 const v1Routes = require('./routes');
 
-const app = express();
+const app: Application = express();
 
 // CORS enables secure cross-origin requests between web applications
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));

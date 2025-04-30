@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { getUser } from '../controllers/user.controller';
+import { FileUploadService } from '@libs/multer/src';
 
-const router = Router();
+const router = Router()
 
-router.get('/:id', getUser);
+router.get('/:id', () => {});
 
 export default router;

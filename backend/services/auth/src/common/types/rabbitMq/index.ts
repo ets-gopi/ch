@@ -1,4 +1,4 @@
 export type QueueName = {
-  AUTH_SIGNUP: string;
-  AUTH_LOGIN: string;
+  USER_CREATED: string;
+  USER_UPDATED: string;
 };

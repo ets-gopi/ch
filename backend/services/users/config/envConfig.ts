@@ -3,7 +3,7 @@ import path from 'path';
 import Joi from 'joi';
 import createError from 'http-errors';
 import { UserEnvVarsType } from '@common/interfaces/src';
-class EnvVars {
+export class UserEnvVars {
   private envFile: string;
   private envVarsObj: UserEnvVarsType;
   constructor() {
@@ -20,7 +20,9 @@ class EnvVars {
     const envVarsSchema = Joi.object()
       .keys({
         PORT: Joi.number().required(),
-        NODE_ENV: Joi.string().required()
+        NODE_ENV: Joi.string().required(),
+        MONGO_URI: Joi.string().required(),
+        DB_NAME: Joi.string().required()
       })
       .unknown();
     const validateObj = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(process.env);
@@ -36,5 +38,3 @@ class EnvVars {
     return this.envVarsObj[key];
   }
 }
-
-export default EnvVars;

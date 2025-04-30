@@ -8,7 +8,6 @@ export interface EnvVarsType {
 export interface AuthEnvVarsType {
   PORT: number;
   NODE_ENV: string;
-  JWT_SECRET: string;
   MONGO_URI: string;
   DB_NAME: string;
 }
@@ -16,6 +15,8 @@ export interface AuthEnvVarsType {
 export interface UserEnvVarsType {
   PORT: number;
   NODE_ENV: string;
+  MONGO_URI: string;
+  DB_NAME: string;
 }
 
 export interface LoggerEnvVarsType {
@@ -26,4 +27,9 @@ export interface LoggerEnvVarsType {
 
 export interface JwtEnvVarsType {
   JWT_SECRET: string;
+}
+
+export interface MulterEnvVarsType {
+  UPLOAD_DIR: string;
+  MAX_FILE_SIZE:string;
 }

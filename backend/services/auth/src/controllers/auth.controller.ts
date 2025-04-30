@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
-import { userAccountModel } from '../common/models/user.model';
-import { UserAccountValidation } from '../common/Joi/userValidations/users.joi';
+import { userAccountModel } from '../common/models/user.account';
+import { UserAccountValidation } from '../common/Joi/authValidations/user.account';
 import { JwtService } from '@libs/jwt/src';
 import createError from 'http-errors';
-import { IUserAccount } from '../common/interfaces/user.account.interface';
+import { IUserAccount } from '../common/interfaces/user.account';
 import { ErrorConstants } from '@common/constants/src';
 import { HydratedDocument } from 'mongoose';
-import PublisherChannel from '../common/rabbitMq/channels/publishers/auth.publisher';
+import { PublisherChannel } from '../common/rabbitMq/';
 import { v4 as uuidv4 } from 'uuid';
 
 export const login = (req: Request, res: Response) => {
@@ -14,7 +14,7 @@ export const login = (req: Request, res: Response) => {
   res.json({ token: 'jwt-token-example' });
 };
 
-class UserAccountController {
+export class UserAccountController {
   private authModel = userAccountModel;
   private userAuthAccountValidator: UserAccountValidation;
   private jwtService: JwtService;
@@ -38,8 +38,7 @@ class UserAccountController {
         throw createError(409, { message: 'Email Is Already Exists.', errorCode: ErrorConstants.ERROR_DUPLICATE_ENTRY });
       } else {
         const id = uuidv4();
-        const newUser: HydratedDocument<IUserAccount> = await this.authModel.create({ email: email, password: password, userId: id });
-        await newUser.save();
+        await this.authModel.create({ email: email, password: password, userId: id });
         // generate a access token.
         token = await this.jwtService.signAccessToken(id);
 
@@ -51,7 +50,7 @@ class UserAccountController {
           maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
 
-        //await this.publisherChannel.publish('AUTH_SIGNUP', { data: { email: newUser.email } });
+        await this.publisherChannel.publish('USER_CREATED', { userId: id });
 
         res.locals.responseMessage.responseSuccess(req, res, 201, 'User has been successfully registered.', null, res.locals.requestId);
       }
@@ -65,5 +64,3 @@ class UserAccountController {
     }
   };
 }
-
-export default UserAccountController;

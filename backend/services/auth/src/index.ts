@@ -1,9 +1,9 @@
 import app from './app';
-import AuthEnvVars from '../config/envConfig';
-import { RabbitMqClient } from '@common/rabbitmq/src';
-import ConsumerChannel from './common/rabbitMq/channels/consumers/auth.consumer';
-import createError from 'http-errors';
 import { Server } from 'http';
+import createError from 'http-errors';
+import { AuthEnvVars } from '../config/envConfig';
+import { RabbitMqClient } from '@common/rabbitmq/src';
+import { ConsumerChannel } from './common/rabbitMq';
 import { DatabaseClient } from '@common/dbconfig/src';
 import { Logger } from '@libs/logger/src';
 let server: Server;
@@ -27,10 +27,10 @@ async function main() {
     logger.info('Connected to RabbitMq Server Successfully.');
 
     // Create the ConsumerChannel instance
-    const consumerChannel = new ConsumerChannel();
+    // const consumerChannel = new ConsumerChannel();
 
     // Start consuming messages from the 'AUTH_SERVICE' queue
-    await consumerChannel.consumer();
+    // await consumerChannel.consumer();
 
     await DatabaseClientInstance.connect(envVarsInstance.get('MONGO_URI'), { dbName: envVarsInstance.get('DB_NAME') });
 

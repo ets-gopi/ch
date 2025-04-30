@@ -1,5 +1,6 @@
 import express from 'express';
-import UserAccountController from '../controllers/auth.controller';
+import { UserAccountController } from '../controllers';
+
 const router = express.Router();
 // create an new instance on usercontroller.
 const UserAccountControllerInstance = new UserAccountController();

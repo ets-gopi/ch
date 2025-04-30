@@ -2,10 +2,10 @@ import dotenv from 'dotenv';
 import path from 'path';
 import Joi from 'joi';
 import createError from 'http-errors';
-import { AuthEnvVarsType } from '@common/interfaces/src';
-export class AuthEnvVars {
+import { MulterEnvVarsType } from '@common/interfaces/src';
+export class MulterEnvVars {
   private envFile: string;
-  private envVarsObj: AuthEnvVarsType;
+  private envVarsObj: MulterEnvVarsType;
   constructor() {
     this.envFile = process.env.NODE_ENV === 'development' ? '.env.dev' : '.env.prod';
     this.loadEnvFile();
@@ -16,13 +16,11 @@ export class AuthEnvVars {
       path: path.resolve(__dirname, `../${this.envFile}`)
     });
   }
-  private validateEnvFile(): AuthEnvVarsType {
+  private validateEnvFile(): MulterEnvVarsType {
     const envVarsSchema = Joi.object()
       .keys({
-        PORT: Joi.number().required(),
-        NODE_ENV: Joi.string().required(),
-        MONGO_URI: Joi.string().required(),
-        DB_NAME: Joi.string().required()
+        MAX_FILE_SIZE: Joi.string().required().description('MAX FILE SIZE'),
+        UPLOAD_DIR: Joi.string().required().description('directory for images Files')
       })
       .unknown();
     const validateObj = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(process.env);
@@ -32,9 +30,9 @@ export class AuthEnvVars {
 
     return {
       ...validateObj.value
-    } as AuthEnvVarsType;
+    } as MulterEnvVarsType;
   }
-  public get<T extends keyof AuthEnvVarsType>(key: T): AuthEnvVarsType[T] {
+  public get<T extends keyof MulterEnvVarsType>(key: T): MulterEnvVarsType[T] {
     return this.envVarsObj[key];
   }
 }

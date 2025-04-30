@@ -1,16 +1,16 @@
 import { RabbitMqClient } from '@common/rabbitmq/src';
 import amqp from 'amqplib';
-import { AuthQueueNames } from '../../../constants';
-import { QueueName } from '../../../types/rabbitMq';
+import { UserQueueNames } from '../../../constants';
+import { QueueNamePublisherType } from '../../../types/rabbitMq';
 export class PublisherChannel {
   private rabbitMqConnection: amqp.ChannelModel | null = null;
-  private queueNames = AuthQueueNames;
+  private queueNames = UserQueueNames;
   constructor() {
     // Initialize RabbitMqClient
     const rabbitMqClient = new RabbitMqClient();
     this.rabbitMqConnection = rabbitMqClient.connection;
   }
-  public async publish(queue: keyof QueueName, data: Record<string, any>) {
+  public async publish(queue: keyof QueueNamePublisherType, data: Record<string, any>) {
     if (!this.rabbitMqConnection) {
       // Make sure the connection is established before proceeding
       await this.connectToRabbitMq();
@@ -40,4 +40,3 @@ export class PublisherChannel {
     this.rabbitMqConnection = rabbitMqClient.connection;
   }
 }
-

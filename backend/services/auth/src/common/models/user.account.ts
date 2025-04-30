@@ -1,6 +1,6 @@
 import { CallbackError, model, Schema } from 'mongoose';
-import { IUserAccount } from '../interfaces/user.account.interface';
-import { UserRole } from '../enums/user.enums';
+import { IUserAccount } from '../interfaces';
+import { UserRole } from '../enums';
 import bcrypt from 'bcrypt';
 
 const userAccountSchema = new Schema<IUserAccount>(
@@ -24,6 +24,11 @@ const userAccountSchema = new Schema<IUserAccount>(
       default: [UserRole.USER]
     },
     is_email_verified: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    is_profile_created: {
       type: Boolean,
       required: false,
       default: false

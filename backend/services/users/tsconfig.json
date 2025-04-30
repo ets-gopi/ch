@@ -4,6 +4,14 @@
     "outDir": "dist",
     "composite": true
   },
-  "include": ["src/**/*", "config/**/*"],
-  "references": [{ "path": "../../common/interfaces" }]
+  "include": ["src/**/*", "config/**/*", "../../typings/**/*.ts"],
+  "references": [
+    { "path": "../../common/interfaces" },
+    { "path": "../../common/constants" },
+    { "path": "../../libs/logger" },
+    { "path": "../../common/types" },
+    { "path": "../../common/rabbitmq" },
+    { "path": "../../common/dbconfig" },
+    { "path": "../../libs/multer" }
+  ]
 }

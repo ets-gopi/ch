@@ -1,8 +1,8 @@
 import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import path from 'path';
-import LoggerEnvVars from '../config/envConfig';
 import fs from 'fs';
+import LoggerEnvVars from '../config/envConfig';
 class Logger {
   private logger: winston.Logger | null;
   private envVars: LoggerEnvVars;

@@ -1,16 +1,16 @@
 import { RabbitMqClient } from '@common/rabbitmq/src';
 import amqp from 'amqplib';
-import { AuthQueueNames } from '../../../constants';
+import { UserQueueNames } from '../../../constants';
 import mongoose from 'mongoose';
 import { DatabaseClient } from '@common/dbconfig/src';
-import { AuthEnvVars } from '@services/auth/config/envConfig';
-import { userAccountModel } from '../../../models/user.account';
+import { UserEnvVars } from '@services/users/config/envConfig';
+import { userProfileModel } from '../../../models/';
 
 export class ConsumerChannel {
   private rabbitMqConnection: amqp.ChannelModel | null = null;
-  private queueNames = AuthQueueNames;
+  private queueNames = UserQueueNames;
   private databaseConnection: mongoose.Mongoose | null = null;
-  private authModel = userAccountModel;
+  private profileModel = userProfileModel;
   constructor() {
     // Initialize RabbitMqClient
     const rabbitMqClient = new RabbitMqClient();
@@ -26,7 +26,10 @@ export class ConsumerChannel {
       // Make sure the connection is established before proceeding
       await this.connectToRabbitMq();
     }
-    if (this.rabbitMqConnection) {
+    if (!this.databaseConnection) {
+      await this.connectToDBClient();
+    }
+    if (this.rabbitMqConnection && this.databaseConnection) {
       const channel: amqp.Channel = await this.rabbitMqConnection.createChannel();
 
       // create a queue if not exist
@@ -34,9 +37,11 @@ export class ConsumerChannel {
 
       channel.consume(
         this.queueNames.USER_CREATED,
-        (msg) => {
+        async (msg) => {
           if (msg !== null) {
-            console.log('Received:', msg.content.toString());
+            console.log('Received:', JSON.parse(msg.content.toString()));
+            const parsedData = JSON.parse(msg.content.toString());
+            await this.profileModel.create({ userId: parsedData.userId });
             channel.ack(msg);
           } else {
             console.log('Consumer cancelled by server');
@@ -59,7 +64,7 @@ export class ConsumerChannel {
   private async connectToDBClient() {
     const dbClient = new DatabaseClient();
     // create an environmental variable instance.
-    const envVarsInstance = new AuthEnvVars();
+    const envVarsInstance = new UserEnvVars();
     await dbClient.connect(envVarsInstance.get('MONGO_URI'), { dbName: envVarsInstance.get('DB_NAME') });
     this.databaseConnection = dbClient.connection;
   }
