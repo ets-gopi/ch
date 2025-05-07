@@ -2,23 +2,19 @@
   "name": "chat-app-backend",
   "private": true,
   "version": "1.0.0",
-  "packageManager": "npm@10.8.2",
+  "packageManager": "npm@10.9.2",
   "workspaces": [
-    "services/**",
-    "libs/**",
-    "common/**",
-    "api-gateway/**"
+    "apps/**",
+    "shared/**",
+    "config/**"
   ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "test": "turbo run test",
-    "start": "concurrently \"npm run start --workspace services/auth\" \"npm run start --workspace services/users\" \"npm run start --workspace api-gateway\""
+    "test": "turbo run test"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.17",
-    "concurrently": "^9.1.2",
     "turbo": "^2.5.0"
   }
 }

@@ -2,8 +2,7 @@
 node_modules/
 
 # Ignore environment variables files (contains sensitive data)
-.env.dev
-.env.prod
+.env*
 
 # Ignore compiled TypeScript files
 dist/

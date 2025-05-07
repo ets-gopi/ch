@@ -11,10 +11,9 @@
     "declarationMap": true,
     "baseUrl": ".",
     "paths": {
-      "@libs/*": ["libs/*"],
-      "@common/*": ["common/*"],
-      "@services/*": ["services/*"],
-      "@api-gateway/*": ["api-gateway/*"]
+      "@config/*": ["config/*"],
+      "@shared/*": ["shared/*"],
+      "@apps/*": ["apps/*"]
     },
     "typeRoots": ["typings/", "node_modules/@types"]
   },
