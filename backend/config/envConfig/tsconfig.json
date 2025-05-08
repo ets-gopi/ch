@@ -4,6 +4,6 @@
     "outDir": "dist",
     "composite": true
   },
-  "include": ["src/**/*", "../../typings/**/*.d.ts"],
-  "references": [{ "path": "../../config/envConfig" }]
+  "include": ["src/**/*"],
+  "references": [{ "path": "../../shared/interfaces" }]
 }

@@ -1,6 +1,9 @@
 import app from './app';
 import { Server } from 'http';
 import createError from 'http-errors';
+import { EnvManager } from '@config/envConfig/src';
+
+const envVarObj = new EnvManager();
 
 // let server: Server;
 
@@ -49,6 +52,6 @@ import createError from 'http-errors';
 
 // main();
 
-app.listen(5001, () => {
-  console.log(`Auth services  server is listening on http://localhost:${5001}/`);
+app.listen(envVarObj.get('AUTH_SERVICE_PORT'), () => {
+  console.log(`Auth services  server is listening on http://localhost:${envVarObj.get('AUTH_SERVICE_PORT')}/`);
 });
